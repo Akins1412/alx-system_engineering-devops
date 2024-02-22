@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# This script is displaying "Best School" 10 times
+
+i=20
+
+while ((i == 20))
+do 
