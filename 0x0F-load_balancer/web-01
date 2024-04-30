@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Serrver-01 login commands
+
+#setting up the SSH-agent
+eval $("ssh-agent")
+
+# Path to Identifyfile
+ssh-add . ~/.ssh/school
+
+#Username and Ip address
+ssh ubuntu@18.207.139.96
