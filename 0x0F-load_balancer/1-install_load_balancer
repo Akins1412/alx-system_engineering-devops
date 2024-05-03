@@ -6,24 +6,25 @@
 
 # Install and configure HAproxy on my lb-01 server.
 sudo apt-get -y update
-sudo apt-get -y install haproxy
+sudo apt install -y haproxy
 
-# edit config file
+sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
+#edit config file
 server_config=\
 "
-frontend  besthor_frontend
+frontend Akins1412_frontend
         bind *:80
         mode http
-        default_backend besthor_backend
-backend besthor_backend
+        default_backend Akins1412_backend
+backend Akins1412_backend
         balance roundrobin
-        server 176572-web-01 18.207.139.96 check
-        server 176572-web-02 54.210.124.33 check
+        server 176572-web-01 18.207.139.96:80 check
+        server 176572-web-02 54.210.124.33:80 check
 "
 echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
 
 # enable haproxy to be started by init script
-echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+#echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 
 # Testing the HAproxy configuration file
 sudo haproxy -c -f /etc/haproxy/haproxy.cfg
