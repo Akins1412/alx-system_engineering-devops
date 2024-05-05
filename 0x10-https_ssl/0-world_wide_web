@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #print out domain and subdomain
 
-domain-display ()
+domain-dis ()
 {
 	domain = "$1"
 	subdomain = "$2"
@@ -12,6 +12,6 @@ for subdomain in "www" "lb-01" "web-01" "web-02"
 do
 	if [ -z "$2" ] || [ "$2" == "%s" ] ;
 	then
-		domain-display "$1" "%s"
+		domain-dis "$1" "%s"
 	fi
 done
