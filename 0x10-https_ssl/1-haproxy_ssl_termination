@@ -1,0 +1,40 @@
+global
+    log     /dev/log local0
+    maxconn 2048
+    user    haproxy
+    group   haproxy
+    tune.ssl.default-dh-param 2048
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    retries 3
+    option  redispatch
+    timeout connect  5000
+    timeout client  10000
+    timeout server  10000
+    option  forwardfor
+    option  http-server-close
+
+frontend Akins1412_frontend
+    bind   0.0.0.0:80
+    reqadd X-Forwarded-Proto:\ http
+    default_backend Akins1412_backend
+
+frontend Akins1412_frontend-https
+    bind   0.0.0.0:443 ssl crt /etc/haproxy/certs/www.unknownn.tech.pem
+    reqadd X-Forwarded-Proto:\ https
+    acl    letsencrypt-acl path_beg /.well-known/acme-challenge/
+    use_backend letsencrypt-backend if letsencrypt-acl
+    default_backend Akins1412_backend
+
+backend Akins1412_backend
+    balance  roundrobin
+    redirect scheme https if !{ ssl_fc }
+    server 176572-web-01 18.207.139.96:80 check
+    server 176572-web-02 54.210.124.33:80 check
+
+backend Akins1412_backend
+    server letsencrypt 127.0.0.1:54321
